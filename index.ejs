@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+    <title>Passes</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <h1>Passes</h1>
+
+    <p><b>Total passes:</b> <%= total %></p>
+    <p><b>Active passes:</b> <%= active %></p>
+
+    <% if(!user) { %>
+        <button type="button" onclick="window.location.href='/login'">
+            Log in
+        </button>
+    <% } else { %>
+        <p><b>Signed in as:</b> <%= user.email %></p>
+        <button type="button" onclick="window.location.href='/logout'">
+            Log out
+        </button>
+
+        <h2>All passes</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Document</th>
+                    <th>Issued at</th>
+                    <th>Status</th>
+                    <th>Change status</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                <% passes.forEach(pass => { %>
+                    <tr>
+                        <td><%= pass.id %></td>
+                        <td><%= pass.name %></td>
+                        <td><%= pass.document %></td>
+                        <td><%= pass.issued_at.toISOString() %></td>
+                        <td><%= pass.status %></td>
+        
+                        <td>
+                            <form action="/passes/<%= pass.id %>/status" method="POST">
+                                <button type="submit">
+                                    <%= pass.status === "ACTIVE" ? "Cancel" : "Activate" %>
+                                </button>
+                            </form>
+                        </td>
+        
+                        <td>
+                            <form action="/passes/<%= pass.id %>/delete" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
