@@ -16,6 +16,10 @@
     "express-oauth2-jwt-bearer": "^1.11.0",
     "express-openid-connect": "^3.4.0",
     "pg": "^8.23.1",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "tsx": "^4.23.15"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
   }
 }

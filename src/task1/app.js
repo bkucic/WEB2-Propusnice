@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Pool } = require("pg");
 const express = require("express");
-const path = require("path");
 const { auth } = require('express-openid-connect');
 const { randomUUID } = require("crypto");
 const QRCode = require("qrcode");
@@ -14,8 +13,7 @@ const db = new Pool({
 const app = express();
 
 app.set("view engine", "ejs");
-app.set("views", __dirname);
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded());
 
@@ -26,7 +24,7 @@ app.use(
         secret: process.env.OIDC_SECRET,
         baseURL: process.env.BASE_URL,
         clientID: process.env.OIDC_CLIENT_ID,
-        issuerBaseURL: process.env.OIDC_ISSUER_BASE_URL,
+        issuerBaseURL: process.env.ISSUER_BASE_URL,
         clientSecret: process.env.OIDC_CLIENT_SECRET
     })
 );
@@ -132,8 +130,8 @@ app.post("/passes/:id/delete", async (req, res, next) => {
 });
 
 const jwtCheck = jwtAuth({
-    audience: process.env.API_AUDIENCE,
-    issuerBaseURL: process.env.OIDC_ISSUER_BASE_URL
+    audience: process.env.AUDIENCE,
+    issuerBaseURL: process.env.ISSUER_BASE_URL
 });
 
 app.use("/passes", jwtCheck);
